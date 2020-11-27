@@ -1,0 +1,71 @@
+/* #hide-post-image
+
+Posts tagged with #hide-post-image will have the post image hidden on the post view.
+
+*/
+
+.post-full.tag-hash-hide-post-image .post-full-image {
+    display: none;
+}
+
+/* ----------------------------------------------------------
+
+#auto-captions
+
+Posts tagged with #auto-captions will automatically make the first para after
+a post photo look like a regular caption.
+
+*/
+.post-full.tag-hash-auto-captions .post-full-content figure.kg-image-card {
+    margin-bottom: 0;
+}
+
+.post-full.tag-hash-auto-captions .post-full-content figure.kg-image-card + p {
+    margin: 1em auto 2.3em;
+    color: color-mod(var(--midgrey) l(-10%));
+    font-family: var(--sans-serif);
+    font-size: 75%;
+    line-height: 1.5em;
+    text-align: center;
+    max-width: 1040px;
+}
+
+/* ----------------------------------------------------------
+
+#auto-drop-caps
+
+Auto drop caps styles on first letter of first para of post, OR first para after an auto caption.
+*/
+
+.post-full.tag-hash-auto-drop-caps
+    .post-full-content
+    p:first-of-type::first-letter {
+    font-weight: bold;
+    font-size: 6rem;
+    margin-top: 1rem;
+    float: left;
+    margin-right: 0.1em;
+}
+
+.post-full.tag-hash-auto-captions.tag-hash-auto-drop-caps
+    .post-full-content
+    figure.kg-image-card:first-child
+    + p
+    + p::first-letter {
+    font-weight: bold;
+    font-size: 6rem;
+    margin-top: 1rem;
+    float: left;
+    margin-right: 0.1em;
+}
+
+/* ensure we don't drop caps on captions */
+.post-full.tag-hash-auto-captions
+    .post-full-content
+    figure.kg-image-card
+    + p::first-letter {
+    float: none;
+    font-size: inherit;
+    margin: inherit;
+    font-weight: inherit;
+}
