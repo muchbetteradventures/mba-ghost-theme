@@ -1,0 +1,40 @@
+{{#get "tags" slug=primary_tag include='count.posts' as |tag| }}
+{{#tag}}
+<header class="site-archive-header">
+    {{> site-header}}
+    {{> header-background background=feature_image}}
+    {{!--Special header-image.hbs partial to generate the background image--}}
+    <div class="inner site-header-content">
+        <h1 class="site-title">{{name}} </h1>
+        <h2 class="site-description">
+            {{#if description}}
+            {{description}}
+            {{else}}
+            A collection of {{plural ../pagination.total empty='posts' singular='% post' plural='% posts'}}
+            {{/if}}
+        </h2>
+    </div>
+    </div>
+</header>
+{{/tag}}
+{{/get}}
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+    <div class="inner posts">
+        {{#get "posts" include="tags,authors" filter="primary_tag:{{primary_tag}}+featured:true" limit="3"}}
+        {{#if posts}}
+        <div class="featured-posts">
+            {{#foreach posts}}
+            {{> "post-card"}}
+            {{/foreach}}
+        </div>
+        {{/if}}
+        {{/get}}
+
+        {{#if tag1}}{{> "primary-tag-section" primary_tag=primary_tag secondary_tag=tag1 }}{{/if}}
+        {{#if tag2}}{{> "primary-tag-section" primary_tag=primary_tag secondary_tag=tag2 }}{{/if}}
+        {{#if tag3}}{{> "primary-tag-section" primary_tag=primary_tag secondary_tag=tag3 }}{{/if}}
+
+
+    </div>
+</main>
