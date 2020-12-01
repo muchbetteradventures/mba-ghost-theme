@@ -1,5 +1,12 @@
-<div class="outer site-nav-main">
-    <div class="inner">
-        {{> "site-nav"}}
+<div class="site-nav-main">
+    <div class="site-nav-header">
+        {{#if @site.logo}}
+        <a class="site-nav-logo" href="{{@site.url}}"><img src="{{@site.logo}}" alt="{{@site.title}}" /></a>
+        {{else}}
+        <a class="site-nav-logo" href="{{@site.url}}">{{@site.title}}</a>
+        {{/if}}
+
+        <a class="subscribe-button" href="#subscribe">Subscribe</a>
     </div>
+    {{> "site-nav"}}
 </div>

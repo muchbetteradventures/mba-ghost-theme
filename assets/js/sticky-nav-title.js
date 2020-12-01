@@ -54,7 +54,50 @@
             ticking = false;
         }
 
-        window.addEventListener('scroll', onScroll, {passive: true});
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        update();
+    };
+})(window, document);
+
+(function (window, document) {
+    // set up Casper as a global object
+    if (!window.Casper) {
+        window.Casper = {};
+    }
+
+    window.Casper.stickyNav = function stickyNav(options) {
+        var nav = document.querySelector(options.navSelector);
+
+        var lastScrollY = window.scrollY;
+        var ticking = false;
+        var direction = "down";
+
+        function onScroll() {
+            direction = lastScrollY > window.scrollY ? "up" : "down";
+            lastScrollY = window.scrollY;
+            requestTick();
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(update);
+            }
+            ticking = true;
+        }
+
+        function update() {
+            // show/hide post title
+            if (direction === "down" && lastScrollY >= 200) {
+                nav.classList.add(options.activeClass);
+            } else {
+                nav.classList.remove(options.activeClass);
+            }
+
+            ticking = false;
+        }
+
+        window.addEventListener("scroll", onScroll, { passive: true });
 
         update();
     };
