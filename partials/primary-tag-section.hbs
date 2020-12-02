@@ -1,14 +1,25 @@
+{{#if index }}
 {{#get "tags" slug=secondary_tag include='count.posts' as |tag| }}
 {{#tag}}
 <h2>{{name}}</h2>
 <p>{{description}} <a href='{{ url }}'>View all {{ count.posts }} posts &rarr;</a></p>
 {{/tag}}
 {{/get}}
-
+{{/if}}
 <div class="post-feed">
-    {{#get "posts" include="authors" filter="primary_tag:{{primary_tag}}+tags:{{secondary_tag}}" limit="3"}}
+    {{#get "posts" include="authors" filter="featured:false+primary_tag:{{primary_tag}}+tags:{{secondary_tag}}+tags:-[{{exclude_tag1}},{{exclude_tag2}}]"
+    limit="3"}}
     {{#foreach posts}}
     {{> "post-card"}}
     {{/foreach}}
     {{/get}}
 </div>
+
+{{#unless index }}
+{{#get "tags" slug=secondary_tag include='count.posts' as |tag| }}
+{{#tag}}
+<p><a href='{{ url }}'>View all {{ count.posts }} posts &rarr;</a></p>
+<hr>
+{{/tag}}
+{{/get}}
+{{/unless}}

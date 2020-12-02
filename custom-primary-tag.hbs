@@ -1,27 +1,37 @@
-{{#get "tags" slug=primary_tag include='count.posts' as |tag| }}
-{{#tag}}
+{{!< primary-tag}}
+
+{{#post}}
+{{#primary_tag}}
 <header class="site-archive-header">
     {{> site-header}}
+    {{#if ../feature_image}}
+    {{> header-background background=../feature_image}}
+    {{ else }}
     {{> header-background background=feature_image}}
+    {{/if}}
     {{!--Special header-image.hbs partial to generate the background image--}}
     <div class="inner site-header-content">
-        <h1 class="site-title">{{name}} </h1>
+        <h1 class="site-title">{{../title}}</h1>
         <h2 class="site-description">
+            {{#if ../custom_excerpt}}
+            {{../custom_excerpt}}
+            {{else}}
             {{#if description}}
             {{description}}
             {{else}}
             A collection of {{plural ../pagination.total empty='posts' singular='% post' plural='% posts'}}
             {{/if}}
+            {{/if}}
         </h2>
     </div>
     </div>
 </header>
-{{/tag}}
-{{/get}}
+{{/primary_tag}}
+
 {{!-- The main content area --}}
 <main id="site-main" class="site-main outer">
     <div class="inner posts">
-        {{#get "posts" include="tags,authors" filter="primary_tag:{{primary_tag}}+featured:true" limit="3"}}
+        {{#get "posts" include="tags,authors" filter="primary_tag:{{primary_tag.slug}}+featured:true" limit="3"}}
         {{#if posts}}
         <div class="featured-posts">
             {{#foreach posts}}
@@ -30,11 +40,9 @@
         </div>
         {{/if}}
         {{/get}}
-
-        {{#if tag1}}{{> "primary-tag-section" primary_tag=primary_tag secondary_tag=tag1 exclude_tag1="___" exclude_tag2="___"}}{{/if}}
-        {{#if tag2}}{{> "primary-tag-section" primary_tag=primary_tag secondary_tag=tag2 exclude_tag1=tag1  exclude_tag2="___"}}{{/if}}
-        {{#if tag3}}{{> "primary-tag-section" primary_tag=primary_tag secondary_tag=tag3 exclude_tag1=tag1 exclude_tag2=tag2}}{{/if}}
-
-
+        {{#each tags }}
+        {{> "primary-tag-section" index=@index primary_tag=../primary_tag.slug secondary_tag=slug exclude_tag1="___" exclude_tag2="___"}}
+        {{/each}}
     </div>
 </main>
+{{/post}}

@@ -3302,11 +3302,15 @@ Usage (In Ghost editor):
     max-width: 1040px;
 }
 
-.home-template .site-main,
-.primary-tag-template .site-main {
+.home-template .site-main {
     margin-top: 64px;
 }
-.primary-tag-template .site-title,
-.primary-tag-template .site-description {
+
+.site-header-background .site-title,
+.site-header-background .site-description {
     color: white;
+}
+
+.primary-tag-template .site-main {
+    margin-top: 0px;
 }

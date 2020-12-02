@@ -12,7 +12,7 @@ into the {body} of the default.hbs template --}}
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script>
     $('.featured-posts').slick({
-        dots: true,
+        dots: $('.featured-posts').children().length > 1,
         infinite: true,
         speed: 1000,
         autoplay: true,
