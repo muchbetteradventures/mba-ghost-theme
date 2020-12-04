@@ -1,9 +1,12 @@
 <section class="subscribe-form">
-    <h3 class="subscribe-form-title">Subscribe to {{@site.title}}</h3>
+    <h3 class="subscribe-form-title">Subscribe to the newsletter</h3>
     <p class="subscribe-form-description">Get the latest posts delivered right to your inbox</p>
-    <form data-members-form="subscribe">
+    <form
+        action="https://muchbetteradventures.us2.list-manage.com/subscribe/post?u=8ef039ed02db26fcd1c723274&id=a887ab1707"
+        target="_blank" method="post">
         <div class="form-group">
-            <input class="subscribe-email" data-members-email placeholder="youremail@example.com" autocomplete="false" />
+            <input class="subscribe-email" name="EMAIL" placeholder="youremail@example.com" />
+            <input type="hidden" id="gdpr_13" name="gdpr[13]" value="Y" class="av-checkbox gdpr">
             <button class="button primary" type="submit">
                 <span class="button-content">Subscribe</span>
                 <span class="button-loader">{{> "icons/loader"}}</span>
