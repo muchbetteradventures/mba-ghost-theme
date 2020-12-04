@@ -1,35 +1,16 @@
 {{!< primary-tag}}
 
 {{#post}}
-{{#primary_tag}}
-<header class="site-archive-header">
-    {{> site-header}}
-    {{#if ../feature_image}}
-    {{> header-background background=../feature_image}}
-    {{ else }}
-    {{> header-background background=feature_image}}
-    {{/if}}
-    {{!--Special header-image.hbs partial to generate the background image--}}
-    <div class="inner site-header-content">
-        <h1 class="site-title">{{../title}}</h1>
-        <h2 class="site-description">
-            {{#if ../custom_excerpt}}
-            {{../custom_excerpt}}
-            {{else}}
-            {{#if description}}
-            {{description}}
-            {{else}}
-            A collection of {{plural ../pagination.total empty='posts' singular='% post' plural='% posts'}}
-            {{/if}}
-            {{/if}}
-        </h2>
-    </div>
-    </div>
-</header>
-{{/primary_tag}}
 
 {{!-- The main content area --}}
 <main id="site-main" class="site-main outer">
+    {{#has tag="#Content Top" }}
+    <section class="post-full-content">
+        <div class="post-content">
+            {{content}}
+        </div>
+    </section>
+    {{/has}}
     <div class="inner posts">
         {{#get "posts" include="tags,authors" filter="primary_tag:{{primary_tag.slug}}+featured:true" limit="3"}}
         {{#if posts}}
@@ -40,9 +21,20 @@
         </div>
         {{/if}}
         {{/get}}
-        {{#each tags }}
-        {{> "primary-tag-section" index=@index primary_tag=../primary_tag.slug secondary_tag=slug exclude_tag1="___" exclude_tag2="___"}}
-        {{/each}}
+        {{#foreach tags }}
+        {{#if @first }}
+        {{> "primary-tag-section" primary_tag=../primary_tag.slug secondary_tag=slug exclude_tag1="hash-out-of-date" exclude_tag2="___"}}
+        {{else}}
+        {{> "primary-tag-section" show_header=1 primary_tag=../primary_tag.slug secondary_tag=slug exclude_tag1="hash-out-of-date" exclude_tag2="___"}}
+        {{/if}}
+        {{/foreach}}
     </div>
+    {{#has tag="#Content Bottom" }}
+    <section class="post-full-content">
+        <div class="post-content">
+            {{content}}
+        </div>
+    </section>
+    {{/has}}
 </main>
 {{/post}}

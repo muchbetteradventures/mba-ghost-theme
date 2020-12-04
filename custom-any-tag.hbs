@@ -1,0 +1,43 @@
+{{!< primary-tag}}
+
+{{#post}}
+<header class="site-archive-header">
+    {{> site-header}}
+    {{> header-background background=feature_image}}
+    {{!--Special header-image.hbs partial to generate the background image--}}
+    <div class="inner site-header-content">
+        <h1 class="site-title">{{title}} h1>
+            <h2 class="site-description">
+                {{custom_excerpt}}
+            </h2>
+    </div>
+    </div>
+</header>
+{{/post}}
+
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+    <div class="inner posts">
+        {{#get "posts" include="tags,authors" filter='featured:true+tags:[{{post.tags}}]' limit="5"}}
+        {{#if posts}}
+        <div class="featured-posts">
+            {{#foreach posts}}
+            {{> "post-card"}}
+            {{/foreach}}
+        </div>
+        {{/if}}
+        {{/get}}
+        {{#foreach post.tags }}
+        <h2>{{name}}</h2>
+        <p>{{description}} <a href='{{ url }}'>View all {{ count.posts }} posts &rarr;</a></p>
+
+        <div class="post-feed">
+            {{#get "posts" include="authors,tags" filter="featured:false+tag:{{slug}}+tag:-hash-out-of-date" limit="3"}}
+            {{#foreach posts}}
+            {{> "post-card"}}
+            {{/foreach}}
+            {{/get}}
+        </div>
+        {{/foreach}}
+    </div>
+</main>

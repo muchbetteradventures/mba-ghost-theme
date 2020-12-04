@@ -1,5 +1,5 @@
 <article
-    class="post-card {{post_class}} {{#unless feature_image}}no-image{{else}}{{#is "home"}}{{#has number="nth:6"}}post-card-large{{/has}}{{/is}}{{/unless}}">
+    class="post-card {{post_class}} {{#unless feature_image}}no-image{{else}}{{#is "tag"}}{{#has index="nth:6"}}post-card-large{{/has}}{{/is}}{{/unless}}">
 
     {{#if feature_image}}
     <a class="post-card-image-link" href="{{url}}">
@@ -18,20 +18,15 @@
         <a class="post-card-content-link" href="{{url}}">
 
             <header class="post-card-header">
-                {{#if primary_tag}}
-                {{#primary_tag}}
-                <div class="post-card-primary-tag">{{name}}</div>
-                {{/primary_tag}}
+                {{#if tags}}
+                <div class="post-card-primary-tag">{{ tags autolink="false"}}</div>
                 {{/if}}
                 <h2 class="post-card-title">{{title}}</h2>
             </header>
 
             <section class="post-card-excerpt">
-                {{#if feature_image}}
-                <p>{{excerpt words="30"}}</p>
-                {{else}}
-                <p>{{excerpt words="44"}}</p>
-                {{/if}}
+                <p>{{#if feature_image}}{{excerpt words="30"}}{{else}}{{excerpt words="44"}}{{/if}}{{#unless custom_excerpt }}&hellip;{{/unless}}
+                </p>
             </section>
 
         </a>

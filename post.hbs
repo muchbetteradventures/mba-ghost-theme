@@ -17,19 +17,27 @@ into the {body} of the default.hbs template --}}
 
             <header class="post-full-header">
 
-                {{#if primary_tag}}
                 <section class="post-full-tags">
                     {{#primary_tag}}
-                    <a href="{{url}}">{{name}}</a>
+                    <a href="{{url}}">{{ name }}</a>&nbsp;&nbsp;&rsaquo;&nbsp;&nbsp;
                     {{/primary_tag}}
+                    {{ tags from="2" separator="&nbsp;&nbsp;&middot;&nbsp;&nbsp;" }}
                 </section>
-                {{/if}}
 
                 <h1 class="post-full-title">{{title}}</h1>
 
                 {{#if custom_excerpt}}
                 <p class="post-full-custom-excerpt">{{custom_excerpt}}</p>
                 {{/if}}
+
+                {{#has tag='#Out of Date'}}
+                <div class="alert alert-warning">
+                    <h4>Out of date!</h4>
+                    <p>Heads up! This post is out of date now, the links might not work, images may be broken.
+                        You've been warned!
+                    </p>
+                </div>
+                {{/has}}
 
                 <div class="post-full-byline">
 

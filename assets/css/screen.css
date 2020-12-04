@@ -175,8 +175,8 @@ h2.site-description {
     font-family: var(--serif);
     font-size: 2.3rem;
     line-height: 1.4em;
-    font-weight: 300;
     text-transform: none;
+    font-weight: 400;
 }
 
 /* 4.1 Home header
@@ -201,7 +201,6 @@ h2.site-description {
 
 .site-home-header .site-description {
     font-size: 2.2rem;
-    font-weight: 300;
     text-align: center;
 }
 
@@ -432,7 +431,8 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     font-weight: 700;
 }
 
-.nav li a:hover {
+.nav li a:hover,
+.nav li.active a {
     text-decoration: none;
     opacity: 1;
     color: black;
@@ -442,16 +442,17 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     content: "";
     position: absolute;
     right: 100%;
-    bottom: 8px;
-    left: 12px;
-    height: 1px;
-    background: var(--darkgrey);
+    bottom: 10px;
+    left: 6px;
+    height: 2px;
+    background: black;
     opacity: 0.25;
     transition: all 0.35s ease-in-out;
 }
 
-.nav li a:hover:before {
-    right: 12px;
+.nav li a:hover:before,
+.nav li.active a:before {
+    right: 6px;
     opacity: 0.5;
 }
 
@@ -592,7 +593,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     border: var(--darkgrey) 1px solid;
     color: var(--darkgrey);
     line-height: 1em;
-    border-radius: 10px;
+    border-radius: 4px;
     opacity: 0.8;
 }
 
@@ -1079,7 +1080,8 @@ make sure this only happens on large viewports / desktop-ish devices.
 /* ---------------------------------------------------------- */
 
 .post-template .site-main,
-.page-template .site-main {
+.page-template .site-main,
+.site-main.no-header {
     margin-top: 90px;
     padding-bottom: 4vw;
     background: #fff;
@@ -1140,7 +1142,6 @@ make sure this only happens on large viewports / desktop-ish devices.
     font-family: var(--serif);
     font-size: 2.3rem;
     line-height: 1.4em;
-    font-weight: 300;
 }
 
 .date-divider {
@@ -2105,7 +2106,6 @@ Usage (In Ghost editor):
     color: rgba(255, 255, 255, 0.6);
     font-size: 1.2rem;
     line-height: 1em;
-    font-weight: 300;
     letter-spacing: 0.4px;
     text-transform: uppercase;
 }
@@ -3303,14 +3303,77 @@ Usage (In Ghost editor):
 }
 
 .home-template .site-main {
-    margin-top: 64px;
+    margin-top: 90px;
 }
 
-.site-header-background .site-title,
-.site-header-background .site-description {
+.site-header-background:not(.no-image) .site-title,
+.site-header-background:not(.no-image) .site-description {
     color: white;
 }
 
-.primary-tag-template .site-main {
-    margin-top: 0px;
+/* "Standard" bits */
+
+.button {
+    display: inline-block;
+    background-color: var(--lightgrey);
+    border: 0;
+    border-radius: 4px;
+    padding: 3px 12px;
+    color: white;
+    font-weight: 700;
+    font-family: var(--sans-serif);
+    transition: 0.05s all;
+}
+
+.button:hover {
+    text-decoration: none;
+    background-color: var(--midgrey);
+}
+
+.button.primary {
+    background-color: var(--green);
+}
+
+.button.primary:hover {
+    text-decoration: none;
+    background-color: color-mod(var(--green) l(-10%));
+}
+
+.tag-section {
+    padding-top: 50px;
+}
+.tag-section .heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.tag-section .heading p {
+    flex: 1 1 100%;
+    flex-direction: row;
+    margin-top: 1em;
+}
+.tag-section .heading h2 {
+    margin: 0;
+}
+
+.tag-section .post-feed {
+    margin: 0 -20px;
+    padding: 0;
+}
+
+.alert {
+    margin: 2em 0;
+}
+.alert p:last-child {
+    padding: 0;
+    margin: 0;
+}
+.alert h4:first-child {
+    margin-top: 0;
+}
+.alert.alert-warning {
+    background-color: color-mod(var(--yellow) l(+30%));
+    padding: 10px;
+    border-radius: 4px;
 }

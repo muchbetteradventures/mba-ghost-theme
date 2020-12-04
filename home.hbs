@@ -1,0 +1,35 @@
+{{!< primary-tag}}
+
+
+
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer no-header">
+    <div class="inner posts">
+        {{#get "posts" include="tags,authors" filter='tag:hash-home-hero' limit="10"}}
+        {{#if posts}}
+        <div class="featured-posts">
+            {{#foreach posts}}
+            {{> "post-card"}}
+            {{/foreach}}
+        </div>
+        {{/if}}
+        {{/get}}
+        {{#foreach page.tags }}
+        <div class="tag-section">
+            <div class="heading">
+                <h2>{{name}}</h2>
+                <div><a class="button primary" href='{{ url }}'>View all posts &rarr;</a></div>
+                <p class="lead">{{description}}</p>
+            </div>
+            <div class="post-feed">
+                {{#get "posts" include="authors,tags" filter="tag:-hash-home-hero+tag:{{slug}}+tag:-hash-out-of-date"
+                limit="3"}}
+                {{#foreach posts}}
+                {{> "post-card"}}
+                {{/foreach}}
+                {{/get}}
+            </div>
+        </div>
+        {{/foreach}}
+    </div>
+</main>

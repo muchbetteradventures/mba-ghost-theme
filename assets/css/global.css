@@ -400,7 +400,6 @@ blockquote {
 blockquote p {
     margin: 0.8em 0;
     font-size: 1.2em;
-    font-weight: 300;
 }
 
 blockquote small {
@@ -493,5 +492,14 @@ h5 {
 h6 {
     margin: 1.5em 0 0.5em 0;
     font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.lead {
+    font-family: var(--serif);
+    color: var(--darkgrey);
+    font-size: 1.8rem;
+    line-height: 1.5em;
+    text-transform: none;
     font-weight: 400;
 }
