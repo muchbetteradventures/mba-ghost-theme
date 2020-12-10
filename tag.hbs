@@ -16,18 +16,19 @@
     </div>
     </div>
 </header>
-
+{{/tag}}
 {{!-- The main content area --}}
 <main id="site-main" class="site-main outer">
     <div class="inner posts">
         <div class="post-feed">
+            {{#tag}}
             {{!-- We re-fetch the posts to filter them further and remove out of date posts --}}
-            {{#get "posts" include="tags,authors" filter="tag:{{slug}}+tag:-hash-out-of-date"}}
+            {{#get "posts" include="tags,authors" filter="tag:{{slug}}+tag:-hash-out-of-date" page=../pagination.page}}
             {{#foreach posts}}
             {{> "post-card"}}
             {{/foreach}}
             {{/get}}
+            {{/tag}}
         </div>
     </div>
 </main>
-{{/tag}}

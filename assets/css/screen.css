@@ -424,10 +424,10 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     position: relative;
     display: block;
     padding: 12px 6px;
-    color: var(--darkgrey);
     opacity: 0.8;
-    transition: opacity 0.35s ease-in-out;
+    transition: 0.1s ease-in-out;
     font-size: 1.6rem;
+    color: var(--darkgrey);
     font-weight: 700;
 }
 
@@ -447,7 +447,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     height: 2px;
     background: black;
     opacity: 0.25;
-    transition: all 0.35s ease-in-out;
+    transition: all 0.1s ease-in-out;
 }
 
 .nav li a:hover:before,
@@ -661,7 +661,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
 /* ---------------------------------------------------------- */
 
 .posts {
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 .post-feed {
@@ -727,7 +727,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     margin: 0 0 0.2em;
     color: var(--green);
     font-size: 1.2rem;
-    font-weight: 400;
+    font-weight: 700;
     letter-spacing: 0.2px;
     text-transform: uppercase;
 }
@@ -986,6 +986,9 @@ make sure this only happens on large viewports / desktop-ish devices.
     display: flex;
 }
 
+@media (max-width: 500px) {
+}
+
 .featured-posts .post-card:not(:first-child) {
     display: none;
 }
@@ -1019,7 +1022,7 @@ make sure this only happens on large viewports / desktop-ish devices.
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 20px;
+    padding: 40px;
     max-width: 46em;
 }
 .featured-posts .post-card .post-card-title {
@@ -1031,7 +1034,6 @@ make sure this only happens on large viewports / desktop-ish devices.
 .featured-posts .post-card .post-card-content-link {
     color: white;
     text-shadow: 1px 1px 15px rgba(0, 0, 0, 0.5);
-
     padding: 0;
 }
 
@@ -1057,6 +1059,10 @@ make sure this only happens on large viewports / desktop-ish devices.
     bottom: 0;
     background-color: black;
     border-radius: 0;
+}
+
+.featured-posts .post-card .post-card-primary-tag {
+    color: white;
 }
 
 .featured-posts .post-card .post-card-image-link .post-card-image {
@@ -1242,20 +1248,19 @@ make sure this only happens on large viewports / desktop-ish devices.
 }
 
 .post-full-content a {
-    color: var(--darkgrey);
+    color: color-mod(var(--green) l(-15%));
     word-break: break-word;
-    box-shadow: var(--darkgrey) 0 -1px 0 inset;
+    box-shadow: color-mod(var(--green) l(-15%)) 0 -1px 0 inset;
     transition: all 0.2s ease-in-out;
 }
 
 .post-full-content a:hover {
-    color: var(--blue);
+    color: color-mod(var(--green) l(-30%));
     text-decoration: none;
-    box-shadow: var(--blue) 0 -1px 0 inset;
+    box-shadow: color-mod(var(--green) l(-20%)) 0 -1px 0 inset;
 }
 
-.post-full-content strong,
-.post-full-content em {
+.post-full-content strong {
     color: color-mod(var(--darkgrey) l(-5%));
 }
 
@@ -1319,8 +1324,8 @@ Usage (In Ghost editor):
     margin: 0 0 1.5em;
     padding: 0 1.5em;
     border-left: color-mod(var(--green)) 3px solid;
-    font-style: italic;
     font-size: 1.2em;
+    weight: bold;
     text-align: center;
     line-height: 1.5em;
 }
@@ -1351,7 +1356,7 @@ Usage (In Ghost editor):
     color: inherit;
     font-size: inherit;
     line-height: inherit;
-    font-style: italic;
+    font-weight: bold;
 }
 
 .post-full-content blockquote p:last-child {
@@ -3396,4 +3401,16 @@ Usage (In Ghost editor):
     background-color: color-mod(var(--yellow) l(+30%));
     padding: 10px;
     border-radius: 4px;
+}
+
+.slick-prev,
+.slick-next {
+    z-index: 1;
+}
+
+.slick-prev {
+    left: 10px !important;
+}
+.slick-next {
+    right: 10px !important;
 }
