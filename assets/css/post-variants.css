@@ -19,7 +19,8 @@ Auto drop caps styles on first letter of first para of post, OR first para after
 .post-full.tag-hash-auto-drop-caps
     .post-full-content
     p:first-of-type::first-letter,
-.post-full.tag-hash-wp .post-full-content p:first-of-type::first-letter {
+.post-full.tag-hash-wp .post-full-content p:first-of-type::first-letter,
+.next-p-auto-drop-caps + p::first-letter {
     float: left;
     font-weight: bold;
     font-size: 75px;
