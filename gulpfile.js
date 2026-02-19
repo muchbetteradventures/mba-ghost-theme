@@ -56,6 +56,10 @@ function css(done) {
     );
 }
 
+function font(done) {
+    pump([src("assets/font/**"), dest("assets/built/")], handleError(done));
+}
+
 function js(done) {
     pump(
         [
@@ -97,10 +101,11 @@ function zipper(done) {
 }
 
 const cssWatcher = () => watch("assets/css/**", css);
+const fontWatcher = () => watch("assets/fonts/**", font);
 const hbsWatcher = () => watch(["*.hbs", "partials/**/*.hbs"], hbs);
 const jsWatcher = () => watch("assets/js/**", js);
-const watcher = parallel(cssWatcher, hbsWatcher, jsWatcher);
-const build = series(css, js);
+const watcher = parallel(cssWatcher, fontWatcher, hbsWatcher, jsWatcher);
+const build = series(css, font, js);
 
 exports.build = build;
 exports.zip = series(build, zipper);

@@ -1,0 +1,5 @@
+{{#get "posts" limit="5" filter="tags:[{{post.tags}}]+id:-{{post.id}}" include="tags" as |related|}}
+{{#foreach related}}
+{{> "post-card"}}
+{{/foreach}}
+{{/get}}

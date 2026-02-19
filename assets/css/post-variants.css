@@ -6,7 +6,7 @@ Posts tagged with #hide-post-image will have the post image hidden on the post v
 
 .post-full.tag-hash-hide-post-image .post-full-image,
 .post-full.tag-hash-wp .post-full-image {
-    display: none;
+  display: none;
 }
 
 /* ----------------------------------------------------------
@@ -17,32 +17,36 @@ Auto drop caps styles on first letter of first para of post, OR first para after
 */
 
 .post-full.tag-hash-auto-drop-caps
-    .post-full-content
-    p:first-of-type::first-letter,
-.post-full.tag-hash-wp .post-full-content p:first-of-type::first-letter,
+  .post-full-content
+  .post-content
+  > p:first-of-type::first-letter,
+.post-full.tag-hash-wp
+  .post-full-content
+  .post-content
+  > p:first-of-type::first-letter,
 .next-p-auto-drop-caps + p::first-letter {
-    float: left;
-    font-weight: bold;
-    font-size: 75px;
-    line-height: 60px;
-    padding-top: 4px;
-    padding-right: 8px;
-    padding-left: 3px;
+  float: left;
+  font-weight: bold;
+  font-size: 75px;
+  line-height: 60px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
 }
 
 /* WP images imported with links look like this */
 a.kg-card.kg-image-card {
-    margin: 0.8em 0 2.3em;
+  margin: 0.8em 0 2.3em;
 }
 
 /* Fix blockquotes came over funny */
 .post-full.tag-hash-wp p[style="text-align: center;"] {
-    margin: 0 0 1.5em;
-    padding: 0 1.5em;
-    border-left: color-mod(var(--green)) 3px solid;
-    font-size: 1.2em;
-    line-height: 1.5em;
-    position: relative;
-    text-align: center !important;
-    font-weight: bold;
+  margin: 0 0 1.5em;
+  padding: 0 1.5em;
+  border-left: color-mod(var(--green)) 3px solid;
+  font-size: 1.2em;
+  line-height: 1.5em;
+  position: relative;
+  text-align: center !important;
+  font-weight: bold;
 }

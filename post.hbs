@@ -116,6 +116,18 @@ into the {body} of the default.hbs template --}}
             <section class="post-full-content">
                 <div class="post-content">
                     {{content}}
+
+                    {{#has tag="Guides"}}
+                    <div class="kg-card kg-callout-card kg-callout-card-green">
+                        <div class="kg-callout-text">
+                            <strong>Stay safe out there: </strong>Our guides are well-researched, short summaries, designed to
+                            inspire but not for navigational purposes. While we strive for accuracy, we cannot guarantee
+                            completeness. Outdoor activities come with serious risk, and individuals must take full personal
+                            responsibility for their own safety. Much Better Adventures, and the authors, disclaim any
+                            liability arising directly or indirectly from the use of the information from this article.
+                        </div>
+                    </div>
+                    {{/has}}
                 </div>
             </section>
 
@@ -168,22 +180,20 @@ into the {body} of the default.hbs template --}}
             {{/if}}
             {{/get}}
             {{/if}}
-
-            {{#get "posts" include="tags,authors" filter="tags:{{tags[1].slug}}+id:-{{id}}"
-            limit="1" as
-            |related_posts|}}
+            {{#get "posts" include="tags,authors" filter="tags:[{{tags[0].slug}},{{tags[1].slug}}]+id:-{{id}}"
+            limit="2" as |related_posts|}}
             {{#foreach related_posts}}
             {{> "post-card"}}
             {{/foreach}}
             {{/get}}
 
-            {{#get "posts" include="tags,authors" filter="tags:{{tags[2].slug}}+id:-{{id}}"
+            {{!-- {{#get "posts" include="tags,authors" filter="tags:{{tags[2].slug}}+id:-{{id}}"
             limit="1" as
             |related_posts|}}
             {{#foreach related_posts}}
             {{> "post-card"}}
             {{/foreach}}
-            {{/get}}
+            {{/get}} --}}
 
             {{!-- 
             {{#next_post}}

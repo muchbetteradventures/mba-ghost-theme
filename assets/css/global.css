@@ -1,3 +1,84 @@
+/* Fonts 
+/* rubik-regular - latin */
+@font-face {
+    font-display: optional;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/rubik-v12-latin-regular.eot");
+    src: local(""),
+        url("../fonts/rubik-v12-latin-regular.eot?#iefix")
+            format("embedded-opentype"),
+        url("../fonts/rubik-v12-latin-regular.woff2") format("woff2"),
+        url("../fonts/rubik-v12-latin-regular.woff") format("woff"),
+        url("../fonts/rubik-v12-latin-regular.ttf") format("truetype"),
+        url("../fonts/rubik-v12-latin-regular.svg#Rubik") format("svg");
+}
+
+/* rubik-700 - latin */
+@font-face {
+    font-display: optional;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../fonts/rubik-v12-latin-700.eot");
+    src: local(""),
+        url("../fonts/rubik-v12-latin-700.eot?#iefix")
+            format("embedded-opentype"),
+        url("../fonts/rubik-v12-latin-700.woff2") format("woff2"),
+        url("../fonts/rubik-v12-latin-700.woff") format("woff"),
+        url("../fonts/rubik-v12-latin-700.ttf") format("truetype"),
+        url("../fonts/rubik-v12-latin-700.svg#Rubik") format("svg");
+}
+
+/* rubik-900 - latin */
+@font-face {
+    font-display: optional;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 900;
+    src: url("../fonts/rubik-v12-latin-900.eot");
+    src: local(""),
+        url("../fonts/rubik-v12-latin-900.eot?#iefix")
+            format("embedded-opentype"),
+        url("../fonts/rubik-v12-latin-900.woff2") format("woff2"),
+        url("../fonts/rubik-v12-latin-900.woff") format("woff"),
+        url("../fonts/rubik-v12-latin-900.ttf") format("truetype"),
+        url("../fonts/rubik-v12-latin-900.svg#Rubik") format("svg");
+}
+
+/* domine-regular - latin */
+@font-face {
+    font-display: optional;
+    font-family: "Domine";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/domine-v11-latin-regular.eot");
+    src: local(""),
+        url("../fonts/domine-v11-latin-regular.eot?#iefix")
+            format("embedded-opentype"),
+        url("../fonts/domine-v11-latin-regular.woff2") format("woff2"),
+        url("../fonts/domine-v11-latin-regular.woff") format("woff"),
+        url("../fonts/domine-v11-latin-regular.ttf") format("truetype"),
+        url("../fonts/domine-v11-latin-regular.svg#Domine") format("svg");
+}
+
+/* domine-700 - latin */
+@font-face {
+    font-display: optional;
+    font-family: "Domine";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../fonts/domine-v11-latin-700.eot");
+    src: local(""),
+        url("../fonts/domine-v11-latin-700.eot?#iefix")
+            format("embedded-opentype"),
+        url("../fonts/domine-v11-latin-700.woff2") format("woff2"),
+        url("../fonts/domine-v11-latin-700.woff") format("woff"),
+        url("../fonts/domine-v11-latin-700.ttf") format("truetype"),
+        url("../fonts/domine-v11-latin-700.svg#Domine") format("svg");
+}
+
 /* Variables
 /* ---------------------------------------------------------- */
 

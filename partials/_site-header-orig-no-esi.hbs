@@ -1,0 +1,12 @@
+<div class="site-nav-main">
+    <div class="site-nav-header">
+        {{#if @site.logo}}
+        <a class="site-nav-logo" href="/"><img src="{{@site.logo}}" alt="{{@site.title}}" /></a>
+        {{else}}
+        <a class="site-nav-logo" href="/">{{@site.title}}</a>
+        {{/if}}
+
+        <a class="subscribe-button" href="https://hub.muchbetteradventures.com/subscribe" target="_blank">Subscribe</a>
+    </div>
+    {{> "site-nav"}}
+</div>
