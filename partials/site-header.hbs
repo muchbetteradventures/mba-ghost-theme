@@ -1,12 +1,3 @@
-<div class="site-nav-main">
-    <div class="site-nav-header">
-        {{#if @site.logo}}
-        <a class="site-nav-logo" href="/"><img src="{{@site.logo}}" alt="{{@site.title}}" /></a>
-        {{else}}
-        <a class="site-nav-logo" href="/">{{@site.title}}</a>
-        {{/if}}
-
-        <a class="subscribe-button" href="#subscribe">Subscribe</a>
-    </div>
-    {{> "site-nav"}}
-</div>
+<!-- START ESI INCLUDE -->
+<esi:include src="https://menubar.muchbetteradventures.com/" onerror="continue" />
+<!-- END ESI INCLUDE -->
