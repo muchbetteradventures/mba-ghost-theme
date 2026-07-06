@@ -68,6 +68,33 @@ Casper uses inline SVG icons, included via Handlebars partials. You can find all
 You can add your own SVG icons in the same manner.
 
 
+# Email capture form
+
+A reusable newsletter signup form is available in two forms, so it can be placed
+either by a developer (in templates) or by an editor (in post content):
+
+- **Template partial** — `partials/email-capture.hbs`. Include it anywhere in a
+  `.hbs` template with `{{> "email-capture"}}`. It accepts optional arguments to
+  customise per placement:
+
+  ```handlebars
+  {{> "email-capture"}}                                    {{!-- Mailchimp, default copy --}}
+  {{> "email-capture" title="Never miss a trip" button="Join"}}
+  {{> "email-capture" action="https://other.list-manage.com/subscribe/post?u=…&id=…"}}
+  {{> "email-capture" members=true}}                       {{!-- Ghost Members (opt-in) --}}
+  ```
+
+  Supported arguments: `title`, `description`, `button`, `placeholder`, `action`
+  (external POST URL, defaults to the Mailchimp list), and `members` (`true`
+  switches to Ghost's native members form). It reuses the existing
+  `.subscribe-form` styles, so no extra CSS/JS is needed.
+
+- **Editor snippet** — `snippets/email-capture.html`. A static HTML version that
+  editors can paste into an HTML card and save as a reusable Ghost snippet (the
+  closest equivalent to a custom editor card, since themes can't register new
+  Koenig cards). See [snippets/README.md](snippets/README.md) for install steps.
+
+
 # Copyright & License
 
 Copyright (c) 2013-2020 Ghost Foundation - Released under the [MIT license](LICENSE).
