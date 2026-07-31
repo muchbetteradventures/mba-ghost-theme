@@ -13,6 +13,8 @@ tokens are not available in this theme. Font sizes use rem (10px base).
     --optin-forest-green: #133322;
     --optin-slate: #1d1d1b;
     --optin-border: #999896;
+    --optin-placeholder: #70706d;
+    --optin-fineprint: #5c5c5a;
     --optin-modal-border: #eeefe8;
     --optin-font: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
@@ -358,7 +360,319 @@ tokens are not available in this theme. Font sizes use rem (10px base).
     display: none;
 }
 
-/* Responsive ------------------------------------------------------------- */
+/* Inline signup variant (ACT-105, treatment of `mag-newsletter-inline`) ------
+Injected into the article body like the prompt above, but collects the email in
+place — no modal. Classes namespaced `.optin-inline*`. Values mirror Figma node
+776:8142: a full-bleed lime band. Base styles are the mobile stacked layout; the
+`min-width: 768px` block is the desktop/tablet two-column banner. The band breaks
+out of the article text column to the full viewport width (`100vw` + the
+`50% - 50vw` margin trick — layout-safe), while its inner content is centred and
+width-capped via `padding-inline: max(...)`. Internal rules are scoped under
+`.optin-inline` to out-rank the theme's article typography. */
+
+.optin-inline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100vw;
+    margin: 3.2rem calc(50% - 50vw);
+    padding: 4rem max(2.4rem, calc((100vw - 46rem) / 2));
+    font-family: var(--optin-font);
+    color: var(--optin-slate);
+    background: var(--optin-spring-lime);
+}
+
+/* Intro column — eyebrow + title grouped, benefits below. Also the positioning
+   context for the decorative arrows (their offsets are relative to it). */
+.optin-inline .optin-inline__intro {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.6rem;
+    min-width: 0;
+}
+
+.optin-inline .optin-inline__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.optin-inline .optin-inline__eyebrow {
+    margin: 0;
+    color: var(--optin-slate);
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.05rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+}
+
+.optin-inline .optin-inline__title {
+    margin: 0;
+    color: var(--optin-slate);
+    font-family: var(--optin-font);
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 2.8rem;
+    letter-spacing: 0;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.optin-inline .optin-inline__benefits {
+    margin: 0;
+    min-width: 0;
+    padding-left: 1.8rem;
+    list-style: disc;
+}
+
+.optin-inline .optin-inline__benefits li {
+    margin: 0;
+    color: var(--optin-slate);
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+}
+
+/* Signup column */
+.optin-inline .optin-inline__signup {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.optin-inline .optin-inline__form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    margin: 0;
+}
+
+.optin-inline .optin-inline__fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.2rem;
+}
+
+.optin-inline .optin-inline__email {
+    box-sizing: border-box;
+    width: 100%;
+    height: 5.6rem;
+    padding: 0 2rem;
+    color: var(--optin-slate);
+    font-family: var(--optin-font);
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+    background: #fff;
+    border: 1px solid var(--optin-border);
+    border-radius: 0.6rem;
+}
+
+.optin-inline .optin-inline__email::placeholder {
+    color: var(--optin-placeholder);
+    opacity: 1;
+}
+
+.optin-inline .optin-inline__email:focus {
+    outline: none;
+    border-color: var(--optin-slate);
+}
+
+.optin-inline .optin-inline__submit {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 4.4rem;
+    padding: 0 4rem;
+    color: #fff;
+    font-family: var(--optin-font);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.8rem;
+    white-space: nowrap;
+    background: var(--optin-forest-green);
+    border: 0;
+    border-radius: 6.4rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.optin-inline .optin-inline__submit:hover,
+.optin-inline .optin-inline__submit:focus {
+    background: color-mod(var(--optin-forest-green) lightness(+8%));
+}
+
+.optin-inline .optin-inline__fineprint {
+    margin: 0;
+    color: var(--optin-fineprint);
+    font-size: 1.2rem;
+    line-height: 2rem;
+    letter-spacing: 0.055rem;
+}
+
+.optin-inline .optin-inline__fineprint a {
+    color: var(--optin-fineprint);
+    text-decoration: underline;
+}
+
+/* Decorative hand-drawn arrows — two distinct white assets from Figma
+   (mba-arrow-3 = title, mba-arrow-6 = cta), children of the intro so their
+   offsets are relative to the left section. Widths and rotations are the Figma
+   values; offsets are the Figma node positions translated to be intro-relative.
+   Values below are the mobile placements; the desktop block overrides them. */
+.optin-inline .optin-inline__arrow {
+    position: absolute;
+    z-index: 1;
+    height: auto;
+    margin: 0;
+    pointer-events: none;
+}
+
+.optin-inline .optin-inline__arrow--title {
+    width: 18.1rem;
+    top: -2.4rem;
+    left: 31.4rem;
+    transform: rotate(-132.4deg) scaleY(-1);
+}
+
+.optin-inline .optin-inline__arrow--cta {
+    width: 18.2rem;
+    bottom: 19.7rem;
+    left: -9.9rem;
+    transform: rotate(-42.04deg);
+}
+
+/* Loader + success / error states (mirrors the modal idiom above) */
+.optin-inline .button-loader,
+.optin-inline .message-success,
+.optin-inline .message-error {
+    display: none;
+}
+
+.optin-inline .optin-inline__form.is-loading .button-content {
+    visibility: hidden;
+}
+
+.optin-inline .optin-inline__form.is-loading .button-loader {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: inline-block;
+    margin-left: -19px;
+    transform: scale(0.7);
+}
+
+.optin-inline .button-loader svg path,
+.optin-inline .button-loader svg rect {
+    fill: #fff;
+}
+
+.optin-inline .optin-inline__message {
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: 1.5;
+}
+
+.optin-inline .optin-inline__form.is-error .message-error {
+    display: block;
+    color: #7a1f0d;
+}
+
+.optin-inline .optin-inline__form.is-success .message-success {
+    display: block;
+    color: var(--optin-forest-green);
+    font-weight: 600;
+}
+
+/* On success, collapse the inputs and just show the confirmation. */
+.optin-inline .optin-inline__form.is-success .optin-inline__fields {
+    display: none;
+}
+
+/* Desktop / tablet two-column banner ------------------------------------- */
+/* Two columns from 768px up; below that the stacked mobile layout applies. The
+   band stays full-bleed; content is centred and capped at 120rem. */
+@media (min-width: 768px) {
+    .optin-inline {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(2.4rem, 6vw, 8rem);
+        margin: 4rem calc(50% - 50vw);
+        /* Figma frame: 80px vertical / 32px horizontal padding, content capped
+           at the 120rem (1200px) frame width. */
+        padding: 8rem max(3.2rem, calc((100vw - 120rem) / 2));
+    }
+
+    .optin-inline .optin-inline__intro {
+        flex: 0 1 40rem;
+        gap: 3.2rem;
+    }
+
+    .optin-inline .optin-inline__signup {
+        flex: 0 1 50rem;
+        padding-top: 3.2rem;
+    }
+
+    .optin-inline .optin-inline__eyebrow {
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+    }
+
+    .optin-inline .optin-inline__title {
+        font-size: clamp(2.2rem, 2.6vw, 3.2rem);
+        line-height: 1.18;
+    }
+
+    .optin-inline .optin-inline__fields {
+        flex-direction: row;
+        align-items: stretch;
+        gap: 1.6rem;
+    }
+
+    .optin-inline .optin-inline__email {
+        flex: 1 1 0;
+        min-width: 0;
+        height: 5.6rem;
+        font-size: 1.6rem;
+    }
+
+    .optin-inline .optin-inline__submit {
+        flex: 0 0 auto;
+        height: auto;
+        font-size: 1.6rem;
+    }
+
+    .optin-inline .optin-inline__arrow--title {
+        width: 18.1rem;
+        top: -16rem;
+        left: 31.4rem;
+        transform: rotate(173.55deg) scaleY(-1);
+    }
+
+    .optin-inline .optin-inline__arrow--cta {
+        width: 18.2rem;
+        top: 16.75rem;
+        left: -19.7rem;
+        transform: rotate(-86.46deg);
+    }
+}
+
+/* Roomy desktops: bullets go to the Figma 16px (kept at 14px on tablet so they
+   stay on one line in the narrower intro column). */
+@media (min-width: 1024px) {
+    .optin-inline .optin-inline__benefits li {
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+    }
+}
 
 @media (max-width: 500px) {
     .optin-modal__title {

@@ -134,56 +134,24 @@
         observer.observe(prompt);
     }
 
-    function createModal(modal) {
-        var form = modal.querySelector(".optin-modal__form");
-        var email = modal.querySelector(".optin-modal__email");
-        var consent = modal.querySelector(".optin-modal__consent-checkbox");
-
-        function onKeydown(e) {
-            if (e.key === "Escape" || e.keyCode === 27) {
-                close("escape");
-            }
-        }
-
-        function open() {
-            modal.classList.add("is-open");
-            modal.setAttribute("aria-hidden", "false");
-            document.addEventListener("keydown", onKeydown);
-            if (email) {
-                email.focus();
-            }
-        }
-
-        function close(method) {
-            // Guard against firing a dismissal when the modal isn't actually
-            // open (e.g. a stray close handler) — only a real close counts.
-            if (!modal.classList.contains("is-open")) {
-                return;
-            }
-            modal.classList.remove("is-open");
-            modal.setAttribute("aria-hidden", "true");
-            document.removeEventListener("keydown", onKeydown);
-            track("Email Opt-In Dismissed", {
-                method: typeof method === "string" ? method : "button",
-                signedUp: form.classList.contains("is-success")
-            });
-        }
-
-        Array.prototype.forEach.call(
-            modal.querySelectorAll("[data-optin-close]"),
-            function (el) {
-                el.addEventListener("click", function () {
-                    close("button");
-                });
-            }
-        );
+    // Wires a form's submit to the HubSpot newsletter submission, toggling the
+    // shared is-loading / is-success / is-error states. Used by both the modal
+    // (control) and the inline block (treatment). `requireConsent` gates on a
+    // consent checkbox; the inline variant has none — consent is legitimate
+    // interest + fineprint (see buildHubSpotPayloads / CONSENT_TEXT).
+    function wireOptinForm(form, options) {
+        var opts = options || {};
+        var email = form.querySelector('input[type="email"]');
+        var consent = opts.requireConsent
+            ? form.querySelector('input[type="checkbox"]')
+            : null;
 
         form.addEventListener("submit", function (e) {
             e.preventDefault();
             form.classList.remove("is-error", "is-success");
 
             var value = (email.value || "").trim();
-            if (!EMAIL_RE.test(value) || !consent.checked) {
+            if (!EMAIL_RE.test(value) || (consent && !consent.checked)) {
                 form.classList.add("is-error");
                 return;
             }
@@ -191,6 +159,7 @@
             form.classList.add("is-loading");
 
             function showError(message) {
+                form.classList.remove("is-loading");
                 form.classList.add("is-error");
                 var msgEl = form.querySelector(".message-error");
                 if (message && msgEl) {
@@ -203,7 +172,6 @@
             // error rather than a false success (Promise.all([]) resolves).
             if (!payloads.length) {
                 console.error("No subscription types configured — a misconfiguration.", payloads);
-                form.classList.remove("is-loading");
                 showError("Something went wrong. Please try again.");
                 track("Email Opt-In Submitted", { success: false });
                 return;
@@ -262,7 +230,6 @@
                     track("Email Opt-In Submitted", { success: true });
                 })
                 .catch(function (err) {
-                    form.classList.remove("is-loading");
                     showError(
                         err && err.invalidEmail
                             ? err.message
@@ -271,6 +238,52 @@
                     track("Email Opt-In Submitted", { success: false });
                 });
         });
+    }
+
+    function createModal(modal) {
+        var form = modal.querySelector(".optin-modal__form");
+        var email = modal.querySelector(".optin-modal__email");
+
+        function onKeydown(e) {
+            if (e.key === "Escape" || e.keyCode === 27) {
+                close("escape");
+            }
+        }
+
+        function open() {
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            document.addEventListener("keydown", onKeydown);
+            if (email) {
+                email.focus();
+            }
+        }
+
+        function close(method) {
+            // Guard against firing a dismissal when the modal isn't actually
+            // open (e.g. a stray close handler) — only a real close counts.
+            if (!modal.classList.contains("is-open")) {
+                return;
+            }
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+            document.removeEventListener("keydown", onKeydown);
+            track("Email Opt-In Dismissed", {
+                method: typeof method === "string" ? method : "button",
+                signedUp: form.classList.contains("is-success")
+            });
+        }
+
+        Array.prototype.forEach.call(
+            modal.querySelectorAll("[data-optin-close]"),
+            function (el) {
+                el.addEventListener("click", function () {
+                    close("button");
+                });
+            }
+        );
+
+        wireOptinForm(form, { requireConsent: true });
 
         return { open: open, close: close };
     }
@@ -284,24 +297,41 @@
         var template = document.getElementById("optin-prompt-tpl");
         var modalEl = document.getElementById("optin-modal");
 
-        if (!content || !template || !modalEl) {
+        if (!content || !template) {
             return;
         }
 
-        var prompt = template.content.cloneNode(true).querySelector(".optin-prompt");
+        // Resolve the mag-newsletter-inline flag: applyVariant removes the
+        // non-matching data-ff-variant block (and logs the Eppo exposure), so
+        // only the chosen variant's block survives. Guarded so a missing reader
+        // falls back to the first block (control) rather than injecting both.
+        var fragment = template.content.cloneNode(true);
+        if (window.Casper && window.Casper.featureFlags) {
+            window.Casper.featureFlags.applyVariant(fragment, "mag-newsletter-inline");
+        }
+
+        var block = fragment.querySelector("[data-ff-variant]");
+        var prompt = block && block.firstElementChild;
         if (!prompt) {
             return;
         }
 
         injectPrompt(content, prompt);
 
-        var modal = createModal(modalEl);
-        var cta = prompt.querySelector(".optin-prompt__cta");
-        if (cta) {
-            cta.addEventListener("click", function () {
-                track("Email Opt-In Clicked");
-                modal.open();
-            });
+        var inlineForm = prompt.querySelector(".optin-inline__form");
+        if (inlineForm) {
+            // Treatment: collect the email inline — no modal.
+            wireOptinForm(inlineForm, { requireConsent: false });
+        } else if (modalEl) {
+            // Control: the prompt's CTA opens the sign-up modal.
+            var modal = createModal(modalEl);
+            var cta = prompt.querySelector(".optin-prompt__cta");
+            if (cta) {
+                cta.addEventListener("click", function () {
+                    track("Email Opt-In Clicked");
+                    modal.open();
+                });
+            }
         }
 
         trackPromptView(prompt);
