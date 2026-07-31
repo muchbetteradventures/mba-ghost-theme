@@ -544,7 +544,7 @@ width-capped via `padding-inline: max(...)`. Internal rules are scoped under
 
 .optin-inline .optin-inline__arrow--cta {
     width: 18.2rem;
-    bottom: 19.7rem;
+    top: 19.7rem;
     left: -9.9rem;
     transform: rotate(-42.04deg);
 }
@@ -594,6 +594,14 @@ width-capped via `padding-inline: max(...)`. Internal rules are scoped under
 /* On success, collapse the inputs and just show the confirmation. */
 .optin-inline .optin-inline__form.is-success .optin-inline__fields {
     display: none;
+}
+
+/* On mobile the bottom-left arrow points at the button; once the form has been
+   submitted (fields collapsed) it has nothing to point at, so hide it. */
+@media (max-width: 768px) {
+    .optin-inline.is-signed-up .optin-inline__arrow--cta {
+        display: none;
+    }
 }
 
 /* Desktop / tablet two-column banner ------------------------------------- */

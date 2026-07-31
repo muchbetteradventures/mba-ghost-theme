@@ -226,6 +226,13 @@
                 .then(function () {
                     form.classList.remove("is-loading");
                     form.classList.add("is-success");
+                    // Tag the shared container so CSS can react to the signed-up
+                    // state from outside the form's subtree (e.g. the inline
+                    // variant's decorative arrows, which live in the intro).
+                    var container = form.closest(".optin-inline");
+                    if (container) {
+                        container.classList.add("is-signed-up");
+                    }
                     rememberSignedUp();
                     track("Email Opt-In Submitted", { success: true });
                 })
