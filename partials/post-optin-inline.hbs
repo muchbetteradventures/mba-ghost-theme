@@ -1,0 +1,47 @@
+{{!-- Inline email opt-in variant (ACT-105, treatment of the `mag-newsletter-inline`
+flag). Rendered hidden inside the <template> in post.hbs and cloned into the top
+third of the article by assets/js/post-optin.js. Unlike the control prompt, this
+collects the email in place (no modal) and submits straight to HubSpot's Forms API.
+No consent checkbox — consent is legitimate-interest + fineprint (see post-optin.js).
+Layout mirrors Figma node 776:8142: stacked card on mobile, two-column banner on
+desktop. --}}
+<aside class="optin-inline" aria-label="Newsletter sign up">
+    <div class="optin-inline__intro">
+        <div class="optin-inline__heading">
+            <p class="optin-inline__eyebrow">Sign up to the Much Better newsletter</p>
+            <h2 class="optin-inline__title">Your weekly guide to<br />a life of adventure</h2>
+        </div>
+        <ul class="optin-inline__benefits">
+            <li>Discover hidden gems, away from the crowds</li>
+            <li>Read real stories from seasoned adventurers</li>
+            <li>Be the first to know about latest offers</li>
+        </ul>
+        {{!-- Decorative arrows are anchored to this (left) section; see post-optin.css. --}}
+        <img class="optin-inline__arrow optin-inline__arrow--title"
+            src="{{asset "images/post-optin/mba-arrow-3.png"}}" alt="" aria-hidden="true" />
+        <img class="optin-inline__arrow optin-inline__arrow--cta"
+            src="{{asset "images/post-optin/mba-arrow-6.png"}}" alt="" aria-hidden="true" />
+    </div>
+    <div class="optin-inline__signup">
+        <form class="optin-inline__form" novalidate>
+            <div class="optin-inline__fields">
+                <input type="email" class="optin-inline__email" name="email" autocomplete="email"
+                    placeholder="Your email, please" required />
+                <button class="optin-inline__submit" type="submit">
+                    <span class="button-content">I'm in!</span>
+                    <span class="button-loader">{{> "icons/loader"}}</span>
+                </button>
+            </div>
+            <div class="message-success optin-inline__message">
+                <strong>Great!</strong> Check your inbox to confirm your subscription.
+            </div>
+            <div class="message-error optin-inline__message">
+                Please enter a valid email address to continue.
+            </div>
+            <p class="optin-inline__fineprint">No spam, ever. See our
+                <a href="https://help.muchbetteradventures.com/privacy-policy" target="_blank"
+                    rel="noopener">Privacy Policy</a> for how we handle your data. You can unsubscribe any time.
+            </p>
+        </form>
+    </div>
+</aside>
