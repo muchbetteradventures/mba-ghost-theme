@@ -20,7 +20,7 @@
 
     // HubSpot newsletter form config. These values are public (visible in HubSpot form embeds).
     var HUBSPOT_PORTAL_ID = 24999114;
-    var HUBSPOT_FORM_GUID = "fffa7192-9995-4a66-9b69-5db898ac83f1";
+    var HUBSPOT_FORM_GUID = "0c39ddbf-0278-476c-98f6-4434b7f6ccfc";
     var HUBSPOT_SUBSCRIPTION_TYPE_IDS = [360468751,119125723];
     // Must match the consent checkbox copy in partials/post-optin-modal.hbs
     var CONSENT_TEXT =
