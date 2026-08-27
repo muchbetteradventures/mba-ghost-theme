@@ -1,12 +1,12 @@
 /* eslint-env browser */
 
 /**
- * Email opt-in prompt + modal (ACT-86)
+ * Inline email opt-in (ACT-86 / ACT-105)
  *
- * On mag article pages, clones the hidden #optin-prompt-tpl into the top third
- * of the article body. Clicking "I'm in" opens the sign-up modal, which submits
- * to HubSpot's Forms API (mirroring the shopfront homepage newsletter signup)
- * and shows inline success/error.
+ * On mag article pages, clones the hidden #optin-inline-tpl into the top third
+ * of the article body. The visitor enters their email in place and it submits
+ * to HubSpot's Forms API (mirroring the shopfront homepage newsletter signup),
+ * showing inline success/error.
  *
  * Once a visitor has signed up we remember it in localStorage and stop showing
  * the prompt. Segment events (window.analytics) are fired when available and
@@ -22,7 +22,8 @@
     var HUBSPOT_PORTAL_ID = 24999114;
     var HUBSPOT_FORM_GUID = "0c39ddbf-0278-476c-98f6-4434b7f6ccfc";
     var HUBSPOT_SUBSCRIPTION_TYPE_IDS = [360468751,119125723];
-    // Must match the consent checkbox copy in partials/post-optin-modal.hbs
+    // Legitimate-interest consent text recorded with each HubSpot submission
+    // (the inline block has no checkbox — see partials/post-optin-inline.hbs).
     var CONSENT_TEXT =
         "Yes, send me the Much Better Adventures newsletter with trip inspiration, advice, and offers.";
 
@@ -134,24 +135,19 @@
         observer.observe(prompt);
     }
 
-    // Wires a form's submit to the HubSpot newsletter submission, toggling the
-    // shared is-loading / is-success / is-error states. Used by both the modal
-    // (control) and the inline block (treatment). `requireConsent` gates on a
-    // consent checkbox; the inline variant has none — consent is legitimate
-    // interest + fineprint (see buildHubSpotPayloads / CONSENT_TEXT).
-    function wireOptinForm(form, options) {
-        var opts = options || {};
+    // Wires the inline form's submit to the HubSpot newsletter submission,
+    // toggling the shared is-loading / is-success / is-error states. There is no
+    // consent checkbox — consent is legitimate interest + fineprint (see
+    // buildHubSpotPayloads / CONSENT_TEXT).
+    function wireOptinForm(form) {
         var email = form.querySelector('input[type="email"]');
-        var consent = opts.requireConsent
-            ? form.querySelector('input[type="checkbox"]')
-            : null;
 
         form.addEventListener("submit", function (e) {
             e.preventDefault();
             form.classList.remove("is-error", "is-success");
 
             var value = (email.value || "").trim();
-            if (!EMAIL_RE.test(value) || (consent && !consent.checked)) {
+            if (!EMAIL_RE.test(value)) {
                 form.classList.add("is-error");
                 return;
             }
@@ -247,78 +243,19 @@
         });
     }
 
-    function createModal(modal) {
-        var form = modal.querySelector(".optin-modal__form");
-        var email = modal.querySelector(".optin-modal__email");
-
-        function onKeydown(e) {
-            if (e.key === "Escape" || e.keyCode === 27) {
-                close("escape");
-            }
-        }
-
-        function open() {
-            modal.classList.add("is-open");
-            modal.setAttribute("aria-hidden", "false");
-            document.addEventListener("keydown", onKeydown);
-            if (email) {
-                email.focus();
-            }
-        }
-
-        function close(method) {
-            // Guard against firing a dismissal when the modal isn't actually
-            // open (e.g. a stray close handler) — only a real close counts.
-            if (!modal.classList.contains("is-open")) {
-                return;
-            }
-            modal.classList.remove("is-open");
-            modal.setAttribute("aria-hidden", "true");
-            document.removeEventListener("keydown", onKeydown);
-            track("Email Opt-In Dismissed", {
-                method: typeof method === "string" ? method : "button",
-                signedUp: form.classList.contains("is-success")
-            });
-        }
-
-        Array.prototype.forEach.call(
-            modal.querySelectorAll("[data-optin-close]"),
-            function (el) {
-                el.addEventListener("click", function () {
-                    close("button");
-                });
-            }
-        );
-
-        wireOptinForm(form, { requireConsent: true });
-
-        return { open: open, close: close };
-    }
-
     function init() {
         if (hasSignedUp()) {
             return;
         }
 
         var content = document.querySelector(".post-full-content .post-content");
-        var template = document.getElementById("optin-prompt-tpl");
-        var modalEl = document.getElementById("optin-modal");
+        var template = document.getElementById("optin-inline-tpl");
 
         if (!content || !template) {
             return;
         }
 
-        // Resolve the mag-newsletter-inline flag: applyVariant removes the
-        // non-matching data-ff-variant block (and logs the Eppo exposure), so
-        // only the chosen variant's block survives. Guarded so a missing reader
-        // falls back to the first block (control) rather than injecting both.
-        var fragment = template.content.cloneNode(true);
-        if (window.Casper && window.Casper.featureFlags) {
-            window.Casper.featureFlags.applyVariant(fragment, "mag-newsletter-inline");
-        }
-
-        var block = fragment.querySelector("[data-ff-variant]");
-        var prompt = block && block.firstElementChild;
+        var prompt = template.content.cloneNode(true).firstElementChild;
         if (!prompt) {
             return;
         }
@@ -327,18 +264,7 @@
 
         var inlineForm = prompt.querySelector(".optin-inline__form");
         if (inlineForm) {
-            // Treatment: collect the email inline — no modal.
-            wireOptinForm(inlineForm, { requireConsent: false });
-        } else if (modalEl) {
-            // Control: the prompt's CTA opens the sign-up modal.
-            var modal = createModal(modalEl);
-            var cta = prompt.querySelector(".optin-prompt__cta");
-            if (cta) {
-                cta.addEventListener("click", function () {
-                    track("Email Opt-In Clicked");
-                    modal.open();
-                });
-            }
+            wireOptinForm(inlineForm);
         }
 
         trackPromptView(prompt);

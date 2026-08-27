@@ -40,11 +40,7 @@
     //   var DEFAULT_FLAGS = { "mag-newsletter-signup": "control" };
     // (applyVariant also falls back to "control" on its own, so an entry is only
     // needed when the default should differ or callers use get()/is() directly.)
-    var DEFAULT_FLAGS = {
-        // Newsletter opt-in on articles: "control" = social-proof prompt + modal,
-        // "treatment" = inline signup block (ACT-105). See assets/js/post-optin.js.
-        "mag-newsletter-inline": "control",
-    };
+    var DEFAULT_FLAGS = {};
 
     // Manual overrides, checked before the injected flags. Persisted to
     // sessionStorage so a console/E2E override survives the reload needed to
