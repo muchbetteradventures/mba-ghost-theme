@@ -143,15 +143,9 @@ into the {body} of the default.hbs template --}}
 
         </article>
 
-        {{!-- Email opt-in prompt (ACT-86 / ACT-105). The markup lives in a hidden
-        template; assets/js/post-optin.js applies the `mag-newsletter-inline` flag,
-        then clones the surviving variant into the top third of the article body.
-        control = social-proof prompt + modal (below); treatment = inline signup. --}}
-        <template id="optin-prompt-tpl">
-            <div data-ff-variant="control">{{> post-optin-prompt}}</div>
-            <div data-ff-variant="treatment">{{> post-optin-inline}}</div>
-        </template>
-        {{> post-optin-modal}}
+        {{!-- Inline email opt-in (ACT-105). The markup lives in a hidden template;
+        assets/js/post-optin.js clones it into the top third of the article body. --}}
+        <template id="optin-inline-tpl">{{> post-optin-inline}}</template>
 
     </div>
 </main>
